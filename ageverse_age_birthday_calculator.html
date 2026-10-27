@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgeVerse — Age & Birthday Calculator</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            900: '#0B0F19',
+                            800: '#0D1322',
+                            700: '#151C33',
+                            600: '#1E293B',
+                        },
+                        cyanGlow: '#00F2FE',
+                        purpleGlow: '#7F00FF',
+                        goldGlow: '#FFD700'
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 25px rgba(0, 242, 254, 0.5)' },
+                            '50%': { opacity: 0.85, boxShadow: '0 0 40px rgba(127, 0, 255, 0.7)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- html2canvas for Exporting Card -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+            background-color: #0B0F19;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-card {
+            background: rgba(21, 28, 51, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-interactive {
+            transition: all 0.3s ease;
+        }
+
+        .glass-card-interactive:hover {
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 242, 254, 0.15);
+        }
+
+        .glass-input {
+            background: rgba(13, 19, 34, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #FFFFFF;
+            backdrop-filter: blur(8px);
+        }
+
+        .glass-input:focus {
+            border-color: #00F2FE;
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Gradients */
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-purple {
+            background: linear-gradient(135deg, #E100FF 0%, #7F00FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-btn-primary {
+            background: linear-gradient(135deg, #00F2FE 0%, #7F00FF 100%);
+        }
+
+        .gradient-btn-primary:hover {
+            background: linear-gradient(135deg, #4FACFE 0%, #E100FF 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #151C33;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F2FE;
+        }
+
+        /* Animated Glowing Orbs Background */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-cyan-500 selection:text-black">
+
+    <!-- Background Decorative Glowing Orbs -->
+    <div class="orb w-96 h-96 bg-cyan-500 top-0 -left-20 animate-float"></div>
+    <div class="orb w-96 h-96 bg-purple-600 top-1/3 -right-20 animate-float" style="animation-delay: -2s;"></div>
+    <div class="orb w-80 h-80 bg-amber-500 bottom-10 left-1/3 animate-float" style="animation-delay: -4s;"></div>
+
+    <!-- Header / Navbar -->
+    <header class="w-full py-5 px-4 sm:px-8 border-b border-white/10 glass-card sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-purple-600 to-amber-400 p-0.5 shadow-lg shadow-cyan-500/20">
+                    <div class="w-full h-full bg-navy-900 rounded-[14px] flex items-center justify-center">
+                        <i class="fa-solid fa-hourglass-half text-cyan-400 text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight">
+                        Age<span class="gradient-text-cyan">Verse</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Age & Birthday Universe — सटीक आयु गणना</p>
+                </div>
+            </div>
+
+            <!-- Header Actions / Theme Presets -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- Theme Accent Selector -->
+                <div class="flex bg-navy-800/80 p-1 rounded-xl border border-white/10 text-xs">
+                    <button onclick="setThemeAccent('cyan')" id="btn-accent-cyan" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-medium transition-all">Cyan</button>
+                    <button onclick="setThemeAccent('purple')" id="btn-accent-purple" class="px-2.5 py-1 rounded-lg hover:bg-white/5 text-slate-400 font-medium transition-all">Purple</button>
+                    <button onclick="setThemeAccent('gold')" id="btn-accent-gold" class="px-2.5 py-1 rounded-lg hover:bg-white/5 text-slate-400 font-medium transition-all">Gold</button>
+                </div>
+
+                <button onclick="toggleSound()" id="sound-btn" title="ध्वनि टगल करें / Toggle Audio" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-cyan-400 transition-colors">
+                    <i class="fa-solid fa-volume-high text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
+
+        <!-- Banner / Hero Header -->
+        <section class="text-center space-y-3 max-w-3xl mx-auto">
+            <span class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block">
+                <i class="fa-solid fa-sparkles mr-1"></i> 100% सटीक लाइव आयु कैलकुलेटर
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                अपनी सटीक <span class="gradient-text-cyan">उम्र और समय</span> की यात्रा जानें
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                अपनी जन्म तिथि दर्ज करें और सेकेंड दर सेकेंड बढ़ते अपने जीवन के आंकड़े, अगला जन्मदिन काउंटडाउन, और ग्रहों पर आपकी उम्र देखें।
+            </p>
+        </section>
+
+        <!-- Toast / Notification Alert Box -->
+        <div id="toast-container" class="hidden max-w-md mx-auto p-4 rounded-2xl border glass-card text-center transition-all duration-300 z-30">
+            <p id="toast-message" class="text-sm font-medium"></p>
+        </div>
+
+        <!-- SECTION 1: Birth Input Card -->
+        <section class="max-w-3xl mx-auto">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-white/10 relative overflow-hidden shadow-2xl">
+                <!-- Top Card Glow Line -->
+                <div id="card-top-line" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400"></div>
+
+                <form id="age-form" onsubmit="calculateAge(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Date of Birth Input -->
+                        <div class="space-y-2">
+                            <label for="dob" class="block text-sm font-semibold text-slate-200 flex items-center">
+                                <i class="fa-solid fa-calendar-day text-cyan-400 mr-2"></i>
+                                जन्म तिथि / Date of Birth <span class="text-cyan-400 ml-1">*</span>
+                            </label>
+                            <input type="date" id="dob" required
+                                class="w-full px-4 py-3.5 rounded-xl glass-input text-white focus:ring-2 focus:ring-cyan-400 transition-all text-sm sm:text-base font-medium">
+                        </div>
+
+                        <!-- Time of Birth Input (Optional) -->
+                        <div class="space-y-2">
+                            <label for="tob" class="block text-sm font-semibold text-slate-200 flex items-center justify-between">
+                                <span><i class="fa-solid fa-clock text-purple-400 mr-2"></i> जन्म का समय / Birth Time</span>
+                                <span class="text-xs text-slate-400 font-normal">(ऐच्छिक / Optional)</span>
+                            </label>
+                            <input type="time" id="tob" value="00:00"
+                                class="w-full px-4 py-3.5 rounded-xl glass-input text-white focus:ring-2 focus:ring-purple-400 transition-all text-sm sm:text-base font-medium">
+                        </div>
+                    </div>
+
+                    <!-- Quick Preset Buttons -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">त्वरित विकल्प / Quick Presets</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="setPreset('today')" class="px-3 py-1.5 rounded-lg bg-navy-800 border border-white/10 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-all">आज जन्मे (Born Today)</button>
+                            <button type="button" onclick="setPreset('18yrs')" class="px-3 py-1.5 rounded-lg bg-navy-800 border border-white/10 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-all">18 वर्ष पूर्व (18 Yrs Ago)</button>
+                            <button type="button" onclick="setPreset('2000')" class="px-3 py-1.5 rounded-lg bg-navy-800 border border-white/10 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-all">सन 2000 (Year 2000)</button>
+                            <button type="button" onclick="setPreset('1995')" class="px-3 py-1.5 rounded-lg bg-navy-800 border border-white/10 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-all">1995 जन्म</button>
+                        </div>
+                    </div>
+
+                    <!-- CTA Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <button type="submit" id="calculate-btn"
+                            class="flex-1 py-4 px-6 rounded-2xl font-bold text-slate-900 text-base shadow-xl gradient-btn-primary hover:opacity-95 transform active:scale-98 transition-all flex items-center justify-center space-x-2 animate-pulse-glow">
+                            <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                            <span>मेरी उम्र बताओ (Calculate Age)</span>
+                        </button>
+
+                        <button type="button" onclick="resetCalculator()"
+                            class="px-5 py-4 rounded-2xl font-semibold bg-navy-800/90 border border-white/10 text-slate-300 hover:bg-slate-800 hover:text-white transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span class="sm:hidden lg:inline">रीसेट</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Calculation Output Container (Initially Hidden) -->
+        <div id="output-section" class="hidden space-y-8 animate-fadeIn">
+
+            <!-- Celebration Birthday Alert Banner (Triggered if Today is DOB) -->
+            <div id="birthday-banner" class="hidden max-w-5xl mx-auto glass-card border-amber-400/40 bg-gradient-to-r from-amber-500/20 via-purple-600/20 to-cyan-500/20 rounded-3xl p-6 text-center space-y-3 relative overflow-hidden">
+                <i class="fa-solid fa-cake-candles text-4xl text-amber-400 animate-bounce"></i>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-amber-300">🎉 जन्मदिन मुबारक हो! Happy Birthday! 🎉</h3>
+                <p class="text-slate-200 text-sm max-w-xl mx-auto">आज आपका विशेष दिन है! AgeVerse की ओर से आपको ढेर सारी शुभकामनाएं और एक बेहतरीन वर्ष की बधाई!</p>
+            </div>
+
+            <!-- Output Action Header Bar -->
+            <div class="max-w-5xl mx-auto flex flex-wrap justify-between items-center gap-4 border-b border-white/10 pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-chart-pie text-cyan-400 mr-2.5"></i>
+                    आपकी उम्र का संपूर्ण विवरण / Detailed Age Breakdown
+                </h3>
+                <div class="flex items-center space-x-3">
+                    <button onclick="copyAgeResults()" class="px-4 py-2 rounded-xl bg-navy-800 border border-white/10 text-xs sm:text-sm font-medium text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>परिणाम कॉपी करें</span>
+                    </button>
+                    <button onclick="openExportModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-xs sm:text-sm font-medium hover:brightness-110 transition-all flex items-center space-x-2 shadow-lg">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>कार्ड डाउनलोड/शेयर</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- MAIN HIGHLIGHT CARD: Exact Years, Months, Days -->
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-10 border border-cyan-500/30 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center space-y-2 mb-8">
+                    <span class="text-xs font-semibold tracking-widest text-cyan-400 uppercase">मुख्य आयु गणना / Primary Age</span>
+                    <h4 class="text-2xl sm:text-4xl font-extrabold text-white">
+                        आप वर्तमान में <span id="res-years-main" class="gradient-text-cyan">0</span> साल के हैं
+                    </h4>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <!-- Years Box -->
+                    <div class="p-6 rounded-2xl bg-navy-800/80 border border-white/10 glass-card-interactive">
+                        <i class="fa-solid fa-earth-americas text-3xl text-cyan-400 mb-2"></i>
+                        <div id="res-years" class="text-4xl sm:text-5xl font-black text-white my-1">0</div>
+                        <div class="text-sm font-semibold text-slate-300">वर्ष / Years</div>
+                    </div>
+
+                    <!-- Months Box -->
+                    <div class="p-6 rounded-2xl bg-navy-800/80 border border-white/10 glass-card-interactive">
+                        <i class="fa-solid fa-regular fa-calendar-minus text-3xl text-purple-400 mb-2"></i>
+                        <div id="res-months" class="text-4xl sm:text-5xl font-black text-white my-1">0</div>
+                        <div class="text-sm font-semibold text-slate-300">महीने / Months</div>
+                    </div>
+
+                    <!-- Days Box -->
+                    <div class="p-6 rounded-2xl bg-navy-800/80 border border-white/10 glass-card-interactive">
+                        <i class="fa-solid fa-sun text-3xl text-amber-400 mb-2"></i>
+                        <div id="res-days" class="text-4xl sm:text-5xl font-black text-white my-1">0</div>
+                        <div class="text-sm font-semibold text-slate-300">दिन / Days</div>
+                    </div>
+                </div>
+
+                <!-- Born Day of Week Banner -->
+                <div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap justify-around items-center text-center gap-4 text-sm sm:text-base">
+                    <div>
+                        <span class="text-slate-400">जन्म का दिन / Born Day:</span>
+                        <span id="res-born-day" class="font-bold text-cyan-300 ml-2">--</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400">राशि / Zodiac Sign:</span>
+                        <span id="res-zodiac" class="font-bold text-purple-300 ml-2">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE REAL-TIME TICKER GRID (Updates every second) -->
+            <div class="max-w-5xl mx-auto space-y-4">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-lg font-bold text-white flex items-center">
+                        <i class="fa-solid fa-stopwatch text-amber-400 mr-2"></i>
+                        लाइव रियल-टाइम काउंटर / Live Lifetime Ticker
+                    </h4>
+                    <span class="flex items-center text-xs text-cyan-400 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-2"></span>
+                        लाइव अपडेट जारी
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Total Days -->
+                    <div class="p-5 rounded-2xl glass-card border-white/10 text-center">
+                        <i class="fa-solid fa-calendar-days text-cyan-400 text-xl mb-1"></i>
+                        <div id="total-days" class="text-xl sm:text-2xl font-bold text-white tracking-wide">0</div>
+                        <div class="text-xs text-slate-400 mt-1">कुल दिन / Total Days</div>
+                    </div>
+
+                    <!-- Total Hours -->
+                    <div class="p-5 rounded-2xl glass-card border-white/10 text-center">
+                        <i class="fa-solid fa-clock text-purple-400 text-xl mb-1"></i>
+                        <div id="total-hours" class="text-xl sm:text-2xl font-bold text-white tracking-wide">0</div>
+                        <div class="text-xs text-slate-400 mt-1">कुल घंटे / Total Hours</div>
+                    </div>
+
+                    <!-- Total Minutes -->
+                    <div class="p-5 rounded-2xl glass-card border-white/10 text-center">
+                        <i class="fa-solid fa-hourglass-start text-amber-400 text-xl mb-1"></i>
+                        <div id="total-minutes" class="text-xl sm:text-2xl font-bold text-white tracking-wide">0</div>
+                        <div class="text-xs text-slate-400 mt-1">कुल मिनट / Total Minutes</div>
+                    </div>
+
+                    <!-- Total Seconds (Live) -->
+                    <div class="p-5 rounded-2xl glass-card border-cyan-500/40 text-center bg-cyan-500/5">
+                        <i class="fa-solid fa-bolt text-cyan-400 text-xl mb-1 animate-pulse"></i>
+                        <div id="total-seconds" class="text-xl sm:text-2xl font-bold text-cyan-300 tracking-wide">0</div>
+                        <div class="text-xs text-cyan-400/80 mt-1">कुल सेकंड / Live Seconds</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEXT BIRTHDAY COUNTDOWN CARD -->
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-purple-500/30 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 inline-block">
+                            <i class="fa-solid fa-gift mr-1"></i> अगला जन्मदिन / Next Birthday
+                        </span>
+                        <h4 id="next-bday-date" class="text-2xl font-extrabold text-white">--</h4>
+                        <p id="next-bday-day" class="text-sm text-slate-400">--</p>
+                    </div>
+
+                    <!-- Countdown Digital Clock Boxes -->
+                    <div class="grid grid-cols-4 gap-2 sm:gap-4 w-full md:w-auto text-center">
+                        <div class="p-3 sm:p-4 rounded-xl bg-navy-800/90 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+                            <div id="nb-days" class="text-2xl sm:text-3xl font-extrabold text-cyan-400">00</div>
+                            <div class="text-[10px] sm:text-xs text-slate-400 mt-1">दिन / Days</div>
+                        </div>
+                        <div class="p-3 sm:p-4 rounded-xl bg-navy-800/90 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+                            <div id="nb-hours" class="text-2xl sm:text-3xl font-extrabold text-purple-400">00</div>
+                            <div class="text-[10px] sm:text-xs text-slate-400 mt-1">घंटे / Hours</div>
+                        </div>
+                        <div class="p-3 sm:p-4 rounded-xl bg-navy-800/90 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+                            <div id="nb-mins" class="text-2xl sm:text-3xl font-extrabold text-amber-400">00</div>
+                            <div class="text-[10px] sm:text-xs text-slate-400 mt-1">मिनट / Mins</div>
+                        </div>
+                        <div class="p-3 sm:p-4 rounded-xl bg-navy-800/90 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+                            <div id="nb-secs" class="text-2xl sm:text-3xl font-extrabold text-pink-400">00</div>
+                            <div class="text-[10px] sm:text-xs text-slate-400 mt-1">सेकंड / Secs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIFE PROGRESS BAR CARD -->
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 border border-white/10 space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="text-base font-bold text-white flex items-center">
+                            <i class="fa-solid fa-battery-half text-cyan-400 mr-2"></i>
+                            जीवन यात्रा प्रगति / Life Expectancy Progress
+                        </h4>
+                        <p class="text-xs text-slate-400">औसत 80 वर्ष की अनुमानित जीवन अवधि पर आधारित</p>
+                    </div>
+                    <span id="life-prog-percent" class="text-xl font-extrabold text-cyan-400">0%</span>
+                </div>
+
+                <!-- Custom Progress Track -->
+                <div class="w-full h-4 bg-navy-800 rounded-full p-0.5 border border-white/10 relative overflow-hidden">
+                    <div id="life-prog-bar" class="h-full rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400 transition-all duration-1000" style="width: 0%;"></div>
+                </div>
+
+                <!-- Milestone Markers -->
+                <div class="flex justify-between text-[11px] text-slate-400 pt-1 font-medium">
+                    <span>जन्म (0)</span>
+                    <span>युवा (18)</span>
+                    <span>25 वर्ष</span>
+                    <span>मध्यम आयु (50)</span>
+                    <span>75 वर्ष</span>
+                    <span>80 वर्ष</span>
+                </div>
+            </div>
+
+            <!-- FUN BODY STATS & PLANET AGES (GRID LAYOUT) -->
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Left Column: Body Stats -->
+                <div class="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
+                    <h4 class="text-base font-bold text-white flex items-center border-b border-white/10 pb-3">
+                        <i class="fa-solid fa-heart-pulse text-red-400 mr-2"></i>
+                        शरीर के रोचक आंकड़े / Lifetime Body Stats
+                    </h4>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-navy-800/60">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-heart text-red-500 text-lg"></i>
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-200">कुल दिल की धड़कनें</div>
+                                    <div class="text-[11px] text-slate-400">~70 bpm औसत दर</div>
+                                </div>
+                            </div>
+                            <div id="stat-heartbeats" class="text-sm font-bold text-cyan-300">0</div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-navy-800/60">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-wind text-cyan-400 text-lg"></i>
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-200">कुल ली गई सांसें</div>
+                                    <div class="text-[11px] text-slate-400">~16 सांस प्रति मिनट</div>
+                                </div>
+                            </div>
+                            <div id="stat-breaths" class="text-sm font-bold text-purple-300">0</div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-navy-800/60">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-bed text-indigo-400 text-lg"></i>
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-200">सोने की कुल रातें / दिन</div>
+                                    <div class="text-[11px] text-slate-400">पृथ्वी के चक्कर के अनुसार</div>
+                                </div>
+                            </div>
+                            <div id="stat-sleeps" class="text-sm font-bold text-amber-300">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Planet Ages -->
+                <div class="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
+                    <h4 class="text-base font-bold text-white flex items-center border-b border-white/10 pb-3">
+                        <i class="fa-solid fa-planet-ring-with-out-line text-purple-400 mr-2"></i>
+                        अन्य ग्रहों पर आपकी उम्र / Age on Planets
+                    </h4>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Mercury -->
+                        <div class="p-3 rounded-xl bg-navy-800/60 text-center border border-white/5">
+                            <div class="text-xs text-slate-400">बुध / Mercury</div>
+                            <div id="planet-mercury" class="text-lg font-extrabold text-amber-300 my-1">0</div>
+                            <div class="text-[10px] text-slate-400">वर्ष (Years)</div>
+                        </div>
+
+                        <!-- Venus -->
+                        <div class="p-3 rounded-xl bg-navy-800/60 text-center border border-white/5">
+                            <div class="text-xs text-slate-400">शुक्र / Venus</div>
+                            <div id="planet-venus" class="text-lg font-extrabold text-pink-300 my-1">0</div>
+                            <div class="text-[10px] text-slate-400">वर्ष (Years)</div>
+                        </div>
+
+                        <!-- Mars -->
+                        <div class="p-3 rounded-xl bg-navy-800/60 text-center border border-white/5">
+                            <div class="text-xs text-slate-400">मंगल / Mars</div>
+                            <div id="planet-mars" class="text-lg font-extrabold text-red-400 my-1">0</div>
+                            <div class="text-[10px] text-slate-400">वर्ष (Years)</div>
+                        </div>
+
+                        <!-- Jupiter -->
+                        <div class="p-3 rounded-xl bg-navy-800/60 text-center border border-white/5">
+                            <div class="text-xs text-slate-400">बृहस्पति / Jupiter</div>
+                            <div id="planet-jupiter" class="text-lg font-extrabold text-cyan-300 my-1">0</div>
+                            <div class="text-[10px] text-slate-400">वर्ष (Years)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: AGE COMPARISON TOOL (Compare with Friend/Family) -->
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
+                <div class="flex items-center space-x-3 border-b border-white/10 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-users-between-lines"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white">आयु तुलना उपकरण / Age Comparison Tool</h4>
+                        <p class="text-xs text-slate-400">दो व्यक्तियों की उम्र की तुलना करें (Compare age gap between 2 persons)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Person 1 Inputs -->
+                    <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block">पहला व्यक्ति (Person 1)</span>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
+                            <input type="text" id="comp-name-1" placeholder="उदा. शहंशा" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
+                            <input type="date" id="comp-dob-1" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Person 2 Inputs -->
+                    <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
+                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider block">दूसरा व्यक्ति (Person 2)</span>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
+                            <input type="text" id="comp-name-2" placeholder="उदा. समीर" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
+                            <input type="date" id="comp-dob-2" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="compareAges()" class="w-full py-3.5 rounded-xl bg-navy-800 border border-cyan-500/40 text-cyan-300 font-bold hover:bg-cyan-500/10 transition-all text-sm flex items-center justify-center space-x-2 shadow-lg">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>आयु में अंतर देखें (Compare Difference)</span>
+                </button>
+
+                <div id="comp-result-box" class="hidden p-5 rounded-2xl bg-navy-800/80 border border-cyan-500/30 text-center space-y-2">
+                    <p id="comp-result-text" class="text-lg font-extrabold text-white"></p>
+                    <p id="comp-result-sub" class="text-xs text-slate-400"></p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- EXPORT/SHARE REPORT CARD MODAL -->
+    <div id="export-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-6 border border-white/20 space-y-6 relative overflow-hidden">
+            <!-- Modal Close Button -->
+            <button onclick="closeExportModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-navy-800 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-1">
+                <h3 class="text-xl font-bold text-white">आपका आयु कार्ड / Your Age Card</h3>
+                <p class="text-xs text-slate-400">इसे सोशल मीडिया पर शेयर या डाउनलोड करें</p>
+            </div>
+
+            <!-- Preview Card Element to Capture -->
+            <div id="printable-card" class="bg-gradient-to-br from-navy-900 via-navy-800 to-navy-700 p-6 rounded-2xl border border-cyan-500/40 space-y-4 text-center relative overflow-hidden shadow-2xl">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span class="text-xs font-bold tracking-widest text-cyan-400">AGEVERSE REPORT</span>
+                    <span id="exp-card-date" class="text-[10px] text-slate-400"></span>
+                </div>
+
+                <div class="space-y-2 py-2">
+                    <div class="text-xs text-slate-400">मेरी कुल उम्र (Total Age)</div>
+                    <div id="exp-years" class="text-3xl font-black text-cyan-300">0 Years</div>
+                    <div id="exp-breakdown" class="text-xs font-medium text-slate-300">0 Months, 0 Days</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-left text-xs bg-navy-900/60 p-3 rounded-xl border border-white/5">
+                    <div><span class="text-slate-400">जन्म का दिन:</span> <span id="exp-born-day" class="font-bold text-white">--</span></div>
+                    <div><span class="text-slate-400">राशि:</span> <span id="exp-zodiac" class="font-bold text-white">--</span></div>
+                    <div><span class="text-slate-400">कुल दिन:</span> <span id="exp-days" class="font-bold text-white">--</span></div>
+                    <div><span class="text-slate-400">कुल घंटे:</span> <span id="exp-hours" class="font-bold text-white">--</span></div>
+                </div>
+
+                <div class="text-[10px] text-slate-400 pt-2 border-t border-white/5 flex items-center justify-between">
+                    <span>Generated on AgeVerse</span>
+                    <span>ageverse.app</span>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <button onclick="downloadReportCard()" class="w-full py-3 rounded-xl font-bold gradient-btn-primary text-slate-900 shadow-lg flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-download"></i>
+                <span>इमेज डाउनलोड करें (Download Image)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 px-4 border-t border-white/10 glass-card mt-12 text-center text-xs text-slate-400 space-y-2">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div>
+                <span class="font-bold text-slate-200">AgeVerse</span> © <span id="footer-year"></span> — Age & Birthday Universe. All rights reserved.
+            </div>
+            <div class="flex items-center space-x-4 text-slate-400">
+                <span>100% नि:शुल्क और सुरक्षित</span>
+                <span>•</span>
+                <span>सटीक समय गणना</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // Global State Variables
+        let userDOB = null;
+        let userTOB = "00:00";
+        let liveTickerInterval = null;
+        let soundEnabled = true;
+
+        // Zodiac Sign Data (Hindi)
+        const zodiacSigns = [
+            { name: "मकर (Capricorn)", icon: "♑", start: "01-01", end: "01-19" },
+            { name: "कुंभ (Aquarius)", icon: "♒", start: "01-20", end: "02-18" },
+            { name: "मीन (Pisces)", icon: "♓", start: "02-19", end: "03-20" },
+            { name: "मेष (Aries)", icon: "♈", start: "03-21", end: "04-19" },
+            { name: "वृषभ (Taurus)", icon: "♉", start: "04-20", end: "05-20" },
+            { name: "मिथुन (Gemini)", icon: "♊", start: "05-21", end: "06-20" },
+            { name: "कर्क (Cancer)", icon: "♋", start: "06-21", end: "07-22" },
+            { name: "सिंह (Leo)", icon: "♌", start: "07-23", end: "08-22" },
+            { name: "कन्या (Virgo)", icon: "♍", start: "08-23", end: "09-22" },
+            { name: "तुला (Libra)", icon: "♎", start: "09-23", end: "10-22" },
+            { name: "वृश्चिक (Scorpio)", icon: "♏", start: "10-23", end: "11-21" },
+            { name: "धनु (Sagittarius)", icon: "♐", start: "11-22", end: "12-21" },
+            { name: "मकर (Capricorn)", icon: "♑", start: "12-22", end: "12-31" }
+        ];
+
+        // Day names in Hindi & English
+        const daysOfWeek = [
+            "रविवार / Sunday",
+            "सोमवार / Monday",
+            "मंगलवार / Tuesday",
+            "बुधवार / Wednesday",
+            "गुरुवार / Thursday",
+            "शुक्रवार / Friday",
+            "शनिवार / Saturday"
+        ];
+
+        // Page Init
+        window.onload = function() {
+            // Set max date limit to today in date picker
+            const todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById('dob').setAttribute('max', todayStr);
+            document.getElementById('comp-dob-1').setAttribute('max', todayStr);
+            document.getElementById('comp-dob-2').setAttribute('max', todayStr);
+
+            document.getElementById('footer-year').innerText = new Date().getFullYear();
+        };
+
+        // Theme Accent Changer
+        function setThemeAccent(accent) {
+            const btnCyan = document.getElementById('btn-accent-cyan');
+            const btnPurple = document.getElementById('btn-accent-purple');
+            const btnGold = document.getElementById('btn-accent-gold');
+            const topLine = document.getElementById('card-top-line');
+
+            // Reset classes
+            [btnCyan, btnPurple, btnGold].forEach(btn => {
+                btn.className = "px-2.5 py-1 rounded-lg hover:bg-white/5 text-slate-400 font-medium transition-all";
+            });
+
+            if (accent === 'cyan') {
+                btnCyan.className = "px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-medium transition-all";
+                topLine.className = "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400";
+            } else if (accent === 'purple') {
+                btnPurple.className = "px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 font-medium transition-all";
+                topLine.className = "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400";
+            } else if (accent === 'gold') {
+                btnGold.className = "px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-medium transition-all";
+                topLine.className = "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-500 to-red-500";
+            }
+        }
+
+        // Toggle Sound Feedback
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            btn.innerHTML = soundEnabled ?
+                '<i class="fa-solid fa-volume-high text-sm"></i>' :
+                '<i class="fa-solid fa-volume-xmark text-sm text-red-400"></i>';
+            showToast(soundEnabled ? "ध्वनि सक्षम / Sound On" : "ध्वनि म्यूट / Sound Off", "info");
+        }
+
+        // Play Beep Audio via Web Audio API (No external asset dependency)
+        function playBeep(freq = 600, duration = 0.1) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.value = 0.05;
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                // Audio Context fallback
+            }
+        }
+
+        // Show Toast Notification
+        function showToast(msg, type = "error") {
+            const container = document.getElementById('toast-container');
+            const msgEl = document.getElementById('toast-message');
+
+            container.classList.remove('hidden', 'border-red-500/40', 'bg-red-500/10', 'text-red-300', 'border-cyan-500/40', 'bg-cyan-500/10', 'text-cyan-300');
+
+            if (type === "error") {
+                container.classList.add('border-red-500/40', 'bg-red-500/10', 'text-red-300');
+            } else {
+                container.classList.add('border-cyan-500/40', 'bg-cyan-500/10', 'text-cyan-300');
+            }
+
+            msgEl.innerText = msg;
+            container.classList.remove('hidden');
+
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 3500);
+        }
+
+        // Quick Presets Handler
+        function setPreset(type) {
+            const dobInput = document.getElementById('dob');
+            const now = new Date();
+
+            if (type === 'today') {
+                dobInput.value = now.toISOString().split('T')[0];
+            } else if (type === '18yrs') {
+                const d = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
+                dobInput.value = d.toISOString().split('T')[0];
+            } else if (type === '2000') {
+                dobInput.value = '2000-01-01';
+            } else if (type === '1995') {
+                dobInput.value = '1995-06-15';
+            }
+            playBeep(800, 0.05);
+        }
+
+        // Main Calculate Function
+        function calculateAge(event) {
+            if (event) event.preventDefault();
+
+            const dobVal = document.getElementById('dob').value;
+            const tobVal = document.getElementById('tob').value || "00:00";
+
+            if (!dobVal) {
+                showToast("कृपया वैध जन्म तिथि दर्ज करें / Please enter birth date", "error");
+                return;
+            }
+
+            const birthDateTime = new Date(`${dobVal}T${tobVal}`);
+            const now = new Date();
+
+            // Validation: Prevent future date selection
+            if (birthDateTime > now) {
+                showToast("कृपया आज या अतीत की तिथि चुनें (भविष्य की तिथि मान्य नहीं है)", "error");
+                playBeep(300, 0.2);
+                return;
+            }
+
+            userDOB = birthDateTime;
+            userTOB = tobVal;
+
+            // Clear existing interval
+            if (liveTickerInterval) clearInterval(liveTickerInterval);
+
+            // Trigger sound & confetti if today is birthday
+            playBeep(1000, 0.15);
+            checkIfBirthdayToday(birthDateTime);
+
+            // Initial render
+            updateCalculations();
+
+            // Start Live Ticker Every Second
+            liveTickerInterval = setInterval(updateCalculations, 1000);
+
+            // Show Output Section
+            document.getElementById('output-section').classList.remove('hidden');
+
+            // Scroll Smoothly to Results
+            document.getElementById('output-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Calculation Updates Loop
+        function updateCalculations() {
+            if (!userDOB) return;
+
+            const now = new Date();
+
+            // 1. Exact Breakdown (Years, Months, Days)
+            let birthYear = userDOB.getFullYear();
+            let birthMonth = userDOB.getMonth();
+            let birthDate = userDOB.getDate();
+
+            let currentYear = now.getFullYear();
+            let currentMonth = now.getMonth();
+            let currentDate = now.getDate();
+
+            let calculatedYears = currentYear - birthYear;
+            let calculatedMonths = currentMonth - birthMonth;
+            let calculatedDays = currentDate - birthDate;
+
+            if (calculatedDays < 0) {
+                calculatedMonths--;
+                // Get days in previous month
+                const prevMonth = new Date(currentYear, currentMonth, 0).getDate();
+                calculatedDays += prevMonth;
+            }
+
+            if (calculatedMonths < 0) {
+                calculatedYears--;
+                calculatedMonths += 12;
+            }
+
+            // Update UI Main Highlight
+            document.getElementById('res-years-main').innerText = calculatedYears;
+            document.getElementById('res-years').innerText = calculatedYears;
+            document.getElementById('res-months').innerText = calculatedMonths;
+            document.getElementById('res-days').innerText = calculatedDays;
+
+            // Day of Week
+            document.getElementById('res-born-day').innerText = daysOfWeek[userDOB.getDay()];
+
+            // Zodiac Sign
+            document.getElementById('res-zodiac').innerText = getZodiacSign(userDOB.getMonth() + 1, userDOB.getDate());
+
+            // 2. Total Time Stats (Live Ticker)
+            const diffMs = now - userDOB;
+            const totalSecs = Math.floor(diffMs / 1000);
+            const totalMins = Math.floor(totalSecs / 60);
+            const totalHrs = Math.floor(totalMins / 60);
+            const totalDays = Math.floor(totalHrs / 24);
+
+            document.getElementById('total-days').innerText = totalDays.toLocaleString('hi-IN');
+            document.getElementById('total-hours').innerText = totalHrs.toLocaleString('hi-IN');
+            document.getElementById('total-minutes').innerText = totalMins.toLocaleString('hi-IN');
+            document.getElementById('total-seconds').innerText = totalSecs.toLocaleString('hi-IN');
+
+            // 3. Next Birthday Countdown Calculation
+            calculateNextBirthday(userDOB, now);
+
+            // 4. Life Progress Bar (Based on 80 yrs)
+            const maxAgeDays = 80 * 365.25;
+            const lifePercent = Math.min(100, Math.max(0, ((totalDays / maxAgeDays) * 100))).toFixed(1);
+            document.getElementById('life-prog-percent').innerText = `${lifePercent}%`;
+            document.getElementById('life-prog-bar').style.width = `${lifePercent}%`;
+
+            // 5. Fun Body Stats
+            const heartbeats = Math.floor(totalMins * 70);
+            const breaths = Math.floor(totalMins * 16);
+            document.getElementById('stat-heartbeats').innerText = heartbeats.toLocaleString('hi-IN');
+            document.getElementById('stat-breaths').innerText = breaths.toLocaleString('hi-IN');
+            document.getElementById('stat-sleeps').innerText = totalDays.toLocaleString('hi-IN');
+
+            // 6. Planet Ages (Orbital period ratios relative to Earth year)
+            const earthYears = totalDays / 365.25;
+            document.getElementById('planet-mercury').innerText = (earthYears / 0.2408467).toFixed(1);
+            document.getElementById('planet-venus').innerText = (earthYears / 0.61519726).toFixed(1);
+            document.getElementById('planet-mars').innerText = (earthYears / 1.8808476).toFixed(1);
+            document.getElementById('planet-jupiter').innerText = (earthYears / 11.862615).toFixed(1);
+        }
+
+        // Calculate Next Birthday (Accurate Leap-Year Handling)
+        function calculateNextBirthday(dob, now) {
+            let bdayMonth = dob.getMonth();
+            let bdayDate = dob.getDate();
+
+            let nextBdayYear = now.getFullYear();
+
+            // Handle Feb 29 Leap Year birthdays for non-leap target years
+            if (bdayMonth === 1 && bdayDate === 29) {
+                const isLeapYear = (yr) => (yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0);
+                if (!isLeapYear(nextBdayYear)) {
+                    // Default to Feb 28 in non-leap target years
+                    bdayDate = 28;
+                }
+            }
+
+            let nextBday = new Date(nextBdayYear, bdayMonth, bdayDate, dob.getHours(), dob.getMinutes());
+
+            // If birthday has already passed this year, set for next year
+            if (nextBday < now && !(nextBday.getDate() === now.getDate() && nextBday.getMonth() === now.getMonth())) {
+                nextBdayYear++;
+                // Check leap year again for next year if original was Feb 29
+                if (dob.getMonth() === 1 && dob.getDate() === 29) {
+                    const isLeapYear = (yr) => (yr % 4 === 0 && yr % 100 !== 0) || (yr % 400 === 0);
+                    bdayDate = isLeapYear(nextBdayYear) ? 29 : 28;
+                }
+                nextBday = new Date(nextBdayYear, dob.getMonth(), bdayDate, dob.getHours(), dob.getMinutes());
+            }
+
+            // Next Birthday Display Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('next-bday-date').innerText = nextBday.toLocaleDateString('hi-IN', options);
+            document.getElementById('next-bday-day').innerText = daysOfWeek[nextBday.getDay()];
+
+            // Remaining Difference
+            const diffMs = nextBday - now;
+            if (diffMs <= 0) {
+                document.getElementById('nb-days').innerText = "00";
+                document.getElementById('nb-hours').innerText = "00";
+                document.getElementById('nb-mins').innerText = "00";
+                document.getElementById('nb-secs').innerText = "00";
+                return;
+            }
+
+            const rSecs = Math.floor((diffMs / 1000) % 60);
+            const rMins = Math.floor((diffMs / (1000 * 60)) % 60);
+            const rHrs = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+            const rDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            document.getElementById('nb-days').innerText = String(rDays).padStart(2, '0');
+            document.getElementById('nb-hours').innerText = String(rHrs).padStart(2, '0');
+            document.getElementById('nb-mins').innerText = String(rMins).padStart(2, '0');
+            document.getElementById('nb-secs').innerText = String(rSecs).padStart(2, '0');
+        }
+
+        // Check if today is Birthday & Fire Confetti
+        function checkIfBirthdayToday(dob) {
+            const today = new Date();
+            const banner = document.getElementById('birthday-banner');
+
+            if (today.getDate() === dob.getDate() && today.getMonth() === dob.getMonth()) {
+                banner.classList.remove('hidden');
+                // Confetti Burst
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 120,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        // Helper: Zodiac Calculator
+        function getZodiacSign(month, day) {
+            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "कुंभ (Aquarius) ♒";
+            if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "मीन (Pisces) ♓";
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "मेष (Aries) ♈";
+            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "वृषभ (Taurus) ♉";
+            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "मिथुन (Gemini) ♊";
+            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "कर्क (Cancer) ♋";
+            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "सिंह (Leo) ♌";
+            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "कन्या (Virgo) ♍";
+            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "तुला (Libra) ♎";
+            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "वृश्चिक (Scorpio) ♏";
+            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "धनु (Sagittarius) ♐";
+            return "मकर (Capricorn) ♑";
+        }
+
+        // Reset Calculator
+        function resetCalculator() {
+            document.getElementById('age-form').reset();
+            document.getElementById('output-section').classList.add('hidden');
+            if (liveTickerInterval) clearInterval(liveTickerInterval);
+            userDOB = null;
+            showToast("कैलकुलेटर रीसेट हो गया है / Reset Complete", "info");
+            playBeep(400, 0.1);
+        }
+
+        // Copy Results to Clipboard
+        function copyAgeResults() {
+            if (!userDOB) return;
+
+            const years = document.getElementById('res-years').innerText;
+            const months = document.getElementById('res-months').innerText;
+            const days = document.getElementById('res-days').innerText;
+            const totalDays = document.getElementById('total-days').innerText;
+
+            const textToCopy = `✨ AgeVerse आयु रिपोर्ट ✨\n\n` +
+                `📌 मेरी सटीक उम्र: ${years} साल, ${months} महीने, ${days} दिन\n` +
+                `📅 कुल दिन: ${totalDays} दिन\n` +
+                `⭐ राशि: ${document.getElementById('res-zodiac').innerText}\n` +
+                `🗓️ जन्म का दिन: ${document.getElementById('res-born-day').innerText}\n\n` +
+                `AgeVerse के साथ अपनी उम्र की गणना करें!`;
+
+            // Fallback clipboard method for iframe security rules
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = textToCopy;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            showToast("परिणाम क्लिपबोर्ड में कॉपी किए गए! / Results Copied", "info");
+            playBeep(900, 0.1);
+        }
+
+        // Age Comparison Tool
+        function compareAges() {
+            const name1Val = document.getElementById('comp-name-1').value.trim() || "व्यक्ति 1";
+            const name2Val = document.getElementById('comp-name-2').value.trim() || "व्यक्ति 2";
+
+            const dob1Val = document.getElementById('comp-dob-1').value;
+            const dob2Val = document.getElementById('comp-dob-2').value;
+
+            if (!dob1Val || !dob2Val) {
+                showToast("कृपया दोनों व्यक्तियों की जन्मतिथि दर्ज करें / Enter both birth dates", "error");
+                return;
+            }
+
+            const d1 = new Date(dob1Val);
+            const d2 = new Date(dob2Val);
+
+            const diffMs = Math.abs(d1 - d2);
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffYears = (diffDays / 365.25).toFixed(1);
+
+            const box = document.getElementById('comp-result-box');
+            const mainText = document.getElementById('comp-result-text');
+            const subText = document.getElementById('comp-result-sub');
+
+            if (d1 < d2) {
+                // d1 was born earlier, so Person 1 is older
+                mainText.innerText = `${name1Val}, ${name2Val} से लगभग ${diffYears} वर्ष (${diffDays.toLocaleString('hi-IN')} दिन) बड़ा है।`;
+            } else if (d2 < d1) {
+                // d2 was born earlier, so Person 2 is older
+                mainText.innerText = `${name2Val}, ${name1Val} से लगभग ${diffYears} वर्ष (${diffDays.toLocaleString('hi-IN')} दिन) बड़ा है।`;
+            } else {
+                mainText.innerText = `${name1Val} और ${name2Val} दोनों की जन्मतिथि बिल्कुल समान है!`;
+            }
+
+            subText.innerText = `अंतर: ${diffDays.toLocaleString('hi-IN')} दिन | ${diffMs.toLocaleString('hi-IN')} मिलीसेकंड`;
+            box.classList.remove('hidden');
+            playBeep(700, 0.1);
+        }
+
+        // Modal Export Handlers
+        function openExportModal() {
+            if (!userDOB) return;
+
+            document.getElementById('exp-card-date').innerText = new Date().toLocaleDateString('hi-IN');
+            document.getElementById('exp-years').innerText = `${document.getElementById('res-years').innerText} Years`;
+            document.getElementById('exp-breakdown').innerText = `${document.getElementById('res-months').innerText} Months, ${document.getElementById('res-days').innerText} Days`;
+            document.getElementById('exp-born-day').innerText = document.getElementById('res-born-day').innerText;
+            document.getElementById('exp-zodiac').innerText = document.getElementById('res-zodiac').innerText;
+            document.getElementById('exp-days').innerText = document.getElementById('total-days').innerText;
+            document.getElementById('exp-hours').innerText = document.getElementById('total-hours').innerText;
+
+            document.getElementById('export-modal').classList.remove('hidden');
+        }
+
+        function closeExportModal() {
+            document.getElementById('export-modal').classList.add('hidden');
+        }
+
+        // Render card as image using html2canvas
+        function downloadReportCard() {
+            const cardElement = document.getElementById('printable-card');
+            if (typeof html2canvas === 'function') {
+                html2canvas(cardElement, {
+                    backgroundColor: '#0B0F19',
+                    scale: 2
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `AgeVerse-Report-${new Date().toISOString().split('T')[0]}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showToast("कार्ड इमेज डाउनलोड हो गई है! / Card Downloaded", "info");
+                });
+            } else {
+                showToast("इमेज कनवर्टर लोड हो रहा है, पुनः प्रयास करें", "error");
+            }
+        }
+    </script>
+</body>
+</html>
