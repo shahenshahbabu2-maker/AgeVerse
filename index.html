@@ -56,9 +56,6 @@
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <!-- html2canvas for Exporting Card -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <style>
         body {
             font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
@@ -162,7 +159,7 @@
 
     <!-- Header / Navbar -->
     <header class="w-full py-5 px-4 sm:px-8 border-b border-white/10 glass-card sticky top-0 z-40 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-purple-600 to-amber-400 p-0.5 shadow-lg shadow-cyan-500/20">
                     <div class="w-full h-full bg-navy-900 rounded-[14px] flex items-center justify-center">
@@ -175,6 +172,14 @@
                     </h1>
                     <p class="text-xs text-slate-400 hidden sm:block">Age & Birthday Universe — सटीक आयु गणना</p>
                 </div>
+            </div>
+
+            <!-- Top Centered Developer Credit Badge (Compact & Sleek) -->
+            <div class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-sm">
+                <i class="fa-solid fa-crown text-[10px] text-amber-400/90"></i>
+                <span class="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-300">
+                    Website Designed & Developed by <span class="gradient-text-gold font-semibold">MR_shahenshah</span>
+                </span>
             </div>
 
             <!-- Header Actions / Theme Presets -->
@@ -198,14 +203,14 @@
 
         <!-- Banner / Hero Header -->
         <section class="text-center space-y-3 max-w-3xl mx-auto">
-            <span class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block">
+            <span class="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 block sm:inline-block">
                 <i class="fa-solid fa-sparkles mr-1"></i> 100% सटीक लाइव आयु कैलकुलेटर
             </span>
             <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
                 अपनी सटीक <span class="gradient-text-cyan">उम्र और समय</span> की यात्रा जानें
             </h2>
             <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-                अपनी जन्म तिथि दर्ज करें और सेकेंड दर सेकेंड बढ़ते अपने जीवन के आंकड़े, अगला जन्मदिन काउंटडाउन, और ग्रहों पर आपकी उम्र देखें।
+                अपनी जन्म तिथि दर्ज करें और सेकेंड दर सेकेंड बढ़ते अपने जीवन के आंकड़े, अगला जन्मदिन काउंटडाउन, और लग्जरी डाउनलोड कार्ड प्राप्त करें।
             </p>
         </section>
 
@@ -221,6 +226,16 @@
                 <div id="card-top-line" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400"></div>
 
                 <form id="age-form" onsubmit="calculateAge(event)" class="space-y-6">
+                    <!-- User Name Field -->
+                    <div class="space-y-2">
+                        <label for="user-name" class="block text-sm font-semibold text-slate-200 flex items-center justify-between">
+                            <span><i class="fa-solid fa-id-card text-amber-400 mr-2"></i> आपका नाम / Your Name</span>
+                            <span class="text-xs text-slate-400 font-normal">(आईडी कार्ड के लिए / For ID Card)</span>
+                        </label>
+                        <input type="text" id="user-name" placeholder="For example: Sameer"
+                            class="w-full px-4 py-3.5 rounded-xl glass-input text-white focus:ring-2 focus:ring-amber-400 transition-all text-sm sm:text-base font-medium">
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <!-- Date of Birth Input -->
                         <div class="space-y-2">
@@ -293,21 +308,21 @@
                         <i class="fa-solid fa-copy"></i>
                         <span>परिणाम कॉपी करें</span>
                     </button>
-                    <button onclick="openExportModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-xs sm:text-sm font-medium hover:brightness-110 transition-all flex items-center space-x-2 shadow-lg">
-                        <i class="fa-solid fa-share-nodes"></i>
-                        <span>कार्ड डाउनलोड/शेयर</span>
+                    <button onclick="openExportModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 via-purple-600 to-amber-400 text-slate-900 font-bold text-xs sm:text-sm hover:brightness-110 transition-all flex items-center space-x-2 shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-id-card text-navy-900"></i>
+                        <span>आईडी कार्ड डाउनलोड (ID Card)</span>
                     </button>
                 </div>
             </div>
 
             <!-- MAIN HIGHLIGHT CARD: Exact Years, Months, Days -->
-            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-10 border border-cyan-500/30 shadow-2xl relative overflow-hidden">
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-10 border border-amber-500/30 shadow-2xl relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div class="text-center space-y-2 mb-8">
-                    <span class="text-xs font-semibold tracking-widest text-cyan-400 uppercase">मुख्य आयु गणना / Primary Age</span>
+                    <span id="display-user-greeting" class="text-xs font-bold tracking-widest text-amber-400 uppercase">आयु रिपोर्ट / AGE REPORT</span>
                     <h4 class="text-2xl sm:text-4xl font-extrabold text-white">
-                        आप वर्तमान में <span id="res-years-main" class="gradient-text-cyan">0</span> साल के हैं
+                        <span id="display-user-fullname" class="gradient-text-gold">आप</span>, वर्तमान में <span id="res-years-main" class="gradient-text-cyan">0</span> साल के हैं
                     </h4>
                 </div>
 
@@ -537,104 +552,123 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- SECTION 3: AGE COMPARISON TOOL (Compare with Friend/Family) -->
-            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
-                <div class="flex items-center space-x-3 border-b border-white/10 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center text-white">
-                        <i class="fa-solid fa-users-between-lines"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-bold text-white">आयु तुलना उपकरण / Age Comparison Tool</h4>
-                        <p class="text-xs text-slate-400">दो व्यक्तियों की उम्र की तुलना करें (Compare age gap between 2 persons)</p>
-                    </div>
+        <!-- SECTION 3: ALWAYS VISIBLE AGE COMPARISON TOOL (Compare with Friend/Family) -->
+        <div class="max-w-5xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
+            <div class="flex items-center space-x-3 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-users-between-lines"></i>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Person 1 Inputs -->
-                    <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
-                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block">पहला व्यक्ति (Person 1)</span>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
-                            <input type="text" id="comp-name-1" placeholder="उदा. शहंशा" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
-                            <input type="date" id="comp-dob-1" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
-                        </div>
-                    </div>
-
-                    <!-- Person 2 Inputs -->
-                    <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
-                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider block">दूसरा व्यक्ति (Person 2)</span>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
-                            <input type="text" id="comp-name-2" placeholder="उदा. समीर" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
-                            <input type="date" id="comp-dob-2" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
-                        </div>
-                    </div>
-                </div>
-
-                <button onclick="compareAges()" class="w-full py-3.5 rounded-xl bg-navy-800 border border-cyan-500/40 text-cyan-300 font-bold hover:bg-cyan-500/10 transition-all text-sm flex items-center justify-center space-x-2 shadow-lg">
-                    <i class="fa-solid fa-scale-balanced"></i>
-                    <span>आयु में अंतर देखें (Compare Difference)</span>
-                </button>
-
-                <div id="comp-result-box" class="hidden p-5 rounded-2xl bg-navy-800/80 border border-cyan-500/30 text-center space-y-2">
-                    <p id="comp-result-text" class="text-lg font-extrabold text-white"></p>
-                    <p id="comp-result-sub" class="text-xs text-slate-400"></p>
+                <div>
+                    <h4 class="text-lg font-bold text-white">आयु तुलना उपकरण / Age Comparison Tool</h4>
+                    <p class="text-xs text-slate-400">दो व्यक्तियों की उम्र की तुलना करें (Compare age gap between 2 persons)</p>
                 </div>
             </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Person 1 Inputs -->
+                <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
+                    <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block">पहला व्यक्ति (Person 1)</span>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
+                        <input type="text" id="comp-name-1" placeholder="Mr. Shahenshah" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
+                        <input type="date" id="comp-dob-1" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                </div>
+
+                <!-- Person 2 Inputs -->
+                <div class="p-4 rounded-2xl bg-navy-800/50 border border-white/5 space-y-3">
+                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wider block">दूसरा व्यक्ति (Person 2)</span>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">नाम (Name)</label>
+                        <input type="text" id="comp-name-2" placeholder="Aamir Hamza" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">जन्मतिथि (Date of Birth)</label>
+                        <input type="date" id="comp-dob-2" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="compareAges()" class="flex-1 py-3.5 rounded-xl bg-navy-800 border border-cyan-500/40 text-cyan-300 font-bold hover:bg-cyan-500/10 transition-all text-sm flex items-center justify-center space-x-2 shadow-lg">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>आयु में अंतर देखें (Compare Difference)</span>
+                </button>
+            </div>
+
+            <div id="comp-result-box" class="hidden p-5 rounded-2xl bg-navy-800/80 border border-cyan-500/30 text-center space-y-3">
+                <p id="comp-result-text" class="text-lg font-extrabold text-white"></p>
+                <p id="comp-result-sub" class="text-xs text-slate-400"></p>
+                
+                <div class="pt-2">
+                    <button onclick="openCompExportModal()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-purple-600 text-slate-900 font-bold text-xs sm:text-sm hover:brightness-110 transition-all shadow-lg flex items-center justify-center space-x-2 mx-auto">
+                        <i class="fa-solid fa-download"></i>
+                        <span>तुलना कार्ड डाउनलोड करें (Download Comparison Card)</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
     <!-- EXPORT/SHARE REPORT CARD MODAL -->
-    <div id="export-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-card max-w-lg w-full rounded-3xl p-6 border border-white/20 space-y-6 relative overflow-hidden">
+    <div id="export-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-5 sm:p-6 border border-cyan-400/30 space-y-4 relative overflow-hidden shadow-2xl">
             <!-- Modal Close Button -->
-            <button onclick="closeExportModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-navy-800 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center">
+            <button onclick="closeExportModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-navy-800 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center z-10">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <div class="text-center space-y-1">
-                <h3 class="text-xl font-bold text-white">आपका आयु कार्ड / Your Age Card</h3>
-                <p class="text-xs text-slate-400">इसे सोशल मीडिया पर शेयर या डाउनलोड करें</p>
+                <div class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 text-[11px] font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <span>Smart Digital ID Card</span>
+                </div>
+                <h3 class="text-lg font-extrabold text-white">डिजिटल आयु आईडी कार्ड</h3>
+                <p class="text-xs text-slate-400">एचडी स्मार्ट आईडी कार्ड (PNG) प्रीव्यू और डाउनलोड</p>
             </div>
 
-            <!-- Preview Card Element to Capture -->
-            <div id="printable-card" class="bg-gradient-to-br from-navy-900 via-navy-800 to-navy-700 p-6 rounded-2xl border border-cyan-500/40 space-y-4 text-center relative overflow-hidden shadow-2xl">
-                <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span class="text-xs font-bold tracking-widest text-cyan-400">AGEVERSE REPORT</span>
-                    <span id="exp-card-date" class="text-[10px] text-slate-400"></span>
-                </div>
-
-                <div class="space-y-2 py-2">
-                    <div class="text-xs text-slate-400">मेरी कुल उम्र (Total Age)</div>
-                    <div id="exp-years" class="text-3xl font-black text-cyan-300">0 Years</div>
-                    <div id="exp-breakdown" class="text-xs font-medium text-slate-300">0 Months, 0 Days</div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 text-left text-xs bg-navy-900/60 p-3 rounded-xl border border-white/5">
-                    <div><span class="text-slate-400">जन्म का दिन:</span> <span id="exp-born-day" class="font-bold text-white">--</span></div>
-                    <div><span class="text-slate-400">राशि:</span> <span id="exp-zodiac" class="font-bold text-white">--</span></div>
-                    <div><span class="text-slate-400">कुल दिन:</span> <span id="exp-days" class="font-bold text-white">--</span></div>
-                    <div><span class="text-slate-400">कुल घंटे:</span> <span id="exp-hours" class="font-bold text-white">--</span></div>
-                </div>
-
-                <div class="text-[10px] text-slate-400 pt-2 border-t border-white/5 flex items-center justify-between">
-                    <span>Generated on AgeVerse</span>
-                    <span>ageverse.app</span>
-                </div>
+            <!-- High-Resolution Smart Card Canvas Preview -->
+            <div class="w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#070b19]">
+                <canvas id="age-id-canvas" class="w-full h-auto block"></canvas>
             </div>
 
             <!-- Download Button -->
-            <button onclick="downloadReportCard()" class="w-full py-3 rounded-xl font-bold gradient-btn-primary text-slate-900 shadow-lg flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-download"></i>
-                <span>इमेज डाउनलोड करें (Download Image)</span>
+            <button onclick="downloadCanvasCard('age-id-canvas', 'AgeVerse-ID-Card.png')" class="w-full py-3.5 rounded-2xl font-extrabold bg-gradient-to-r from-cyan-400 via-purple-600 to-amber-400 text-slate-900 text-sm shadow-xl hover:brightness-110 transition-all flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-download text-base"></i>
+                <span>आईडी कार्ड डाउनलोड करें (Download HD PNG)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- EXPORT COMPARISON CARD MODAL -->
+    <div id="comp-export-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-5 sm:p-6 border border-purple-500/30 space-y-4 relative overflow-hidden shadow-2xl">
+            <button onclick="closeCompExportModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-navy-800 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-1">
+                <div class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 text-[11px] font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Smart Comparison ID Card</span>
+                </div>
+                <h3 class="text-lg font-extrabold text-white">आयु तुलना स्मार्ट कार्ड</h3>
+                <p class="text-xs text-slate-400">एचडी तुलना कार्ड (PNG) प्रीव्यू और डाउनलोड</p>
+            </div>
+
+            <!-- High-Resolution Comparison Smart Card Canvas Preview -->
+            <div class="w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#070b19]">
+                <canvas id="comp-id-canvas" class="w-full h-auto block"></canvas>
+            </div>
+
+            <button onclick="downloadCanvasCard('comp-id-canvas', 'AgeVerse-Comparison-Card.png')" class="w-full py-3.5 rounded-2xl font-extrabold bg-gradient-to-r from-purple-500 via-amber-400 to-cyan-400 text-slate-900 text-sm shadow-xl hover:brightness-110 transition-all flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-download text-base"></i>
+                <span>तुलना कार्ड डाउनलोड करें (Download HD PNG)</span>
             </button>
         </div>
     </div>
@@ -643,7 +677,7 @@
     <footer class="w-full py-6 px-4 border-t border-white/10 glass-card mt-12 text-center text-xs text-slate-400 space-y-2">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
             <div>
-                <span class="font-bold text-slate-200">AgeVerse</span> © <span id="footer-year"></span> — Age & Birthday Universe. All rights reserved.
+                <span class="font-bold text-slate-200">AgeVerse</span> © <span id="footer-year"></span> — Age & Birthday Universe. Designed & Developed by <span class="gradient-text-gold font-bold">MR_shahenshah</span>
             </div>
             <div class="flex items-center space-x-4 text-slate-400">
                 <span>100% नि:शुल्क और सुरक्षित</span>
@@ -658,8 +692,19 @@
         // Global State Variables
         let userDOB = null;
         let userTOB = "00:00";
+        let userName = "आप";
         let liveTickerInterval = null;
         let soundEnabled = true;
+
+        // Last comparison data state for card generator
+        let lastCompData = {
+            p1Name: "Mr. Shahenshah",
+            p2Name: "Aamir Hamza",
+            dob1: "",
+            dob2: "",
+            mainText: "",
+            subText: ""
+        };
 
         // Zodiac Sign Data (Hindi)
         const zodiacSigns = [
@@ -796,6 +841,9 @@
         function calculateAge(event) {
             if (event) event.preventDefault();
 
+            const nameInput = document.getElementById('user-name').value.trim();
+            userName = nameInput.length > 0 ? nameInput : "आप";
+
             const dobVal = document.getElementById('dob').value;
             const tobVal = document.getElementById('tob').value || "00:00";
 
@@ -804,7 +852,17 @@
                 return;
             }
 
-            const birthDateTime = new Date(`${dobVal}T${tobVal}`);
+            // Fix Date Parsing to prevent epoch overflow issues across browsers
+            const parts = dobVal.split('-');
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
+
+            const timeParts = tobVal.split(':');
+            const hours = parseInt(timeParts[0] || '0', 10);
+            const minutes = parseInt(timeParts[1] || '0', 10);
+
+            const birthDateTime = new Date(year, month, day, hours, minutes);
             const now = new Date();
 
             // Validation: Prevent future date selection
@@ -816,6 +874,9 @@
 
             userDOB = birthDateTime;
             userTOB = tobVal;
+
+            // Display Name Header in Main Highlight Card
+            document.getElementById('display-user-fullname').innerText = userName;
 
             // Clear existing interval
             if (liveTickerInterval) clearInterval(liveTickerInterval);
@@ -1047,8 +1108,8 @@
 
         // Age Comparison Tool
         function compareAges() {
-            const name1Val = document.getElementById('comp-name-1').value.trim() || "व्यक्ति 1";
-            const name2Val = document.getElementById('comp-name-2').value.trim() || "व्यक्ति 2";
+            const name1Val = document.getElementById('comp-name-1').value.trim() || "Mr. Shahenshah";
+            const name2Val = document.getElementById('comp-name-2').value.trim() || "Aamir Hamza";
 
             const dob1Val = document.getElementById('comp-dob-1').value;
             const dob2Val = document.getElementById('comp-dob-2').value;
@@ -1058,68 +1119,440 @@
                 return;
             }
 
-            const d1 = new Date(dob1Val);
-            const d2 = new Date(dob2Val);
+            // Parse dates safely in local timezone to avoid UTC offset issues
+            const parseLocalDate = (str) => {
+                const [y, m, d] = str.split('-').map(Number);
+                return new Date(y, m - 1, d);
+            };
+
+            const d1 = parseLocalDate(dob1Val);
+            const d2 = parseLocalDate(dob2Val);
 
             const diffMs = Math.abs(d1 - d2);
-            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-            const diffYears = (diffDays / 365.25).toFixed(1);
+            const totalDiffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            // Calculate exact calendar Years, Months, and Days difference
+            const calculateExactGap = (olderDate, youngerDate) => {
+                let years = youngerDate.getFullYear() - olderDate.getFullYear();
+                let months = youngerDate.getMonth() - olderDate.getMonth();
+                let days = youngerDate.getDate() - olderDate.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const daysInPrevMonth = new Date(youngerDate.getFullYear(), youngerDate.getMonth(), 0).getDate();
+                    days += daysInPrevMonth;
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                const parts = [];
+                if (years > 0) parts.push(`${years} वर्ष`);
+                if (months > 0) parts.push(`${months} महीने`);
+                if (days > 0) parts.push(`${days} दिन`);
+
+                return parts.length > 0 ? parts.join(', ') : '0 दिन';
+            };
 
             const box = document.getElementById('comp-result-box');
             const mainText = document.getElementById('comp-result-text');
             const subText = document.getElementById('comp-result-sub');
 
+            let resultMsg = "";
             if (d1 < d2) {
                 // d1 was born earlier, so Person 1 is older
-                mainText.innerText = `${name1Val}, ${name2Val} से लगभग ${diffYears} वर्ष (${diffDays.toLocaleString('hi-IN')} दिन) बड़ा है।`;
+                const exactGapStr = calculateExactGap(d1, d2);
+                resultMsg = `${name1Val}, ${name2Val} से ${exactGapStr} बड़ा है।`;
             } else if (d2 < d1) {
                 // d2 was born earlier, so Person 2 is older
-                mainText.innerText = `${name2Val}, ${name1Val} से लगभग ${diffYears} वर्ष (${diffDays.toLocaleString('hi-IN')} दिन) बड़ा है।`;
+                const exactGapStr = calculateExactGap(d2, d1);
+                resultMsg = `${name2Val}, ${name1Val} से ${exactGapStr} बड़ा है।`;
             } else {
-                mainText.innerText = `${name1Val} और ${name2Val} दोनों की जन्मतिथि बिल्कुल समान है!`;
+                resultMsg = `${name1Val} और ${name2Val} दोनों की जन्मतिथि बिल्कुल समान है!`;
             }
 
-            subText.innerText = `अंतर: ${diffDays.toLocaleString('hi-IN')} दिन | ${diffMs.toLocaleString('hi-IN')} मिलीसेकंड`;
+            const detailsMsg = `कुल अंतर: ${totalDiffDays.toLocaleString('hi-IN')} दिन | ${diffMs.toLocaleString('hi-IN')} मिलीसेकंड`;
+
+            mainText.innerText = resultMsg;
+            subText.innerText = detailsMsg;
+
+            // Save comparison state for card rendering
+            lastCompData = {
+                p1Name: name1Val,
+                p2Name: name2Val,
+                dob1: dob1Val,
+                dob2: dob2Val,
+                mainText: resultMsg,
+                subText: detailsMsg
+            };
+
             box.classList.remove('hidden');
             playBeep(700, 0.1);
+        }
+
+        // Comparison Export Modal Handlers
+        function openCompExportModal() {
+            document.getElementById('comp-export-modal').classList.remove('hidden');
+            renderComparisonSmartCard();
+        }
+
+        function closeCompExportModal() {
+            document.getElementById('comp-export-modal').classList.add('hidden');
         }
 
         // Modal Export Handlers
         function openExportModal() {
             if (!userDOB) return;
-
-            document.getElementById('exp-card-date').innerText = new Date().toLocaleDateString('hi-IN');
-            document.getElementById('exp-years').innerText = `${document.getElementById('res-years').innerText} Years`;
-            document.getElementById('exp-breakdown').innerText = `${document.getElementById('res-months').innerText} Months, ${document.getElementById('res-days').innerText} Days`;
-            document.getElementById('exp-born-day').innerText = document.getElementById('res-born-day').innerText;
-            document.getElementById('exp-zodiac').innerText = document.getElementById('res-zodiac').innerText;
-            document.getElementById('exp-days').innerText = document.getElementById('total-days').innerText;
-            document.getElementById('exp-hours').innerText = document.getElementById('total-hours').innerText;
-
             document.getElementById('export-modal').classList.remove('hidden');
+            renderAgeSmartCard();
         }
 
         function closeExportModal() {
             document.getElementById('export-modal').classList.add('hidden');
         }
 
-        // Render card as image using html2canvas
-        function downloadReportCard() {
-            const cardElement = document.getElementById('printable-card');
-            if (typeof html2canvas === 'function') {
-                html2canvas(cardElement, {
-                    backgroundColor: '#0B0F19',
-                    scale: 2
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = `AgeVerse-Report-${new Date().toISOString().split('T')[0]}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    showToast("कार्ड इमेज डाउनलोड हो गई है! / Card Downloaded", "info");
-                });
-            } else {
-                showToast("इमेज कनवर्टर लोड हो रहा है, पुनः प्रयास करें", "error");
+        // Helper: Draw Rounded Rectangle Path
+        function drawRoundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        // Helper: Base Smart Card Frame (860x540 @ 2x = 1720x1080)
+        function drawSmartCardBase(ctx, W, H, badgeLabel, rightMetaText) {
+            ctx.clearRect(0, 0, W, H);
+
+            // Outer Rounded Card Clip
+            drawRoundRect(ctx, 4, 4, W - 8, H - 8, 32);
+            ctx.save();
+            ctx.clip();
+
+            // Deep Midnight-Navy Gradient Background
+            const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+            bgGrad.addColorStop(0, '#070b19');
+            bgGrad.addColorStop(0.5, '#0b1226');
+            bgGrad.addColorStop(1, '#0f172a');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Subtle Ambient Glow Orbs
+            const cyanOrb = ctx.createRadialGradient(140, 90, 10, 140, 90, 320);
+            cyanOrb.addColorStop(0, 'rgba(0, 242, 254, 0.14)');
+            cyanOrb.addColorStop(1, 'rgba(0, 242, 254, 0)');
+            ctx.fillStyle = cyanOrb;
+            ctx.fillRect(0, 0, W, H);
+
+            const purpleOrb = ctx.createRadialGradient(W - 140, H - 90, 10, W - 140, H - 90, 340);
+            purpleOrb.addColorStop(0, 'rgba(127, 0, 255, 0.16)');
+            purpleOrb.addColorStop(1, 'rgba(127, 0, 255, 0)');
+            ctx.fillStyle = purpleOrb;
+            ctx.fillRect(0, 0, W, H);
+
+            // Subtle Diagonal Glass Sheen
+            const sheenGrad = ctx.createLinearGradient(0, 0, W * 0.75, H * 0.85);
+            sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+            sheenGrad.addColorStop(0.45, 'rgba(255, 255, 255, 0.01)');
+            sheenGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = sheenGrad;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(W * 0.65, 0);
+            ctx.lineTo(W * 0.25, H);
+            ctx.lineTo(0, H);
+            ctx.closePath();
+            ctx.fill();
+
+            // Header Divider Line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.09)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(42, 82);
+            ctx.lineTo(W - 42, 82);
+            ctx.stroke();
+
+            // Metallic Smart-Chip Graphic (Top Left)
+            const chipX = 44, chipY = 26, chipW = 52, chipH = 38;
+            const chipGrad = ctx.createLinearGradient(chipX, chipY, chipX + chipW, chipY + chipH);
+            chipGrad.addColorStop(0, '#fde68a');
+            chipGrad.addColorStop(0.5, '#f59e0b');
+            chipGrad.addColorStop(1, '#b45309');
+            drawRoundRect(ctx, chipX, chipY, chipW, chipH, 8);
+            ctx.fillStyle = chipGrad;
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(120, 53, 15, 0.55)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+            // Inner chip lines
+            ctx.beginPath();
+            ctx.moveTo(chipX + 17, chipY);
+            ctx.lineTo(chipX + 17, chipY + chipH);
+            ctx.moveTo(chipX + 35, chipY);
+            ctx.lineTo(chipX + 35, chipY + chipH);
+            ctx.moveTo(chipX, chipY + 19);
+            ctx.lineTo(chipX + chipW, chipY + 19);
+            ctx.stroke();
+
+            // Header Badge Title
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.font = '800 18px "Outfit", sans-serif';
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText(badgeLabel, chipX + chipW + 18, 45);
+
+            // Top Right Meta Info
+            ctx.textAlign = 'right';
+            ctx.font = '600 15px "Outfit", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(rightMetaText, W - 44, 45);
+
+            // Footer Divider Line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.09)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(42, H - 56);
+            ctx.lineTo(W - 42, H - 56);
+            ctx.stroke();
+
+            // Footer Left Credit
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.font = '600 15px "Outfit", sans-serif';
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText('</>', 44, H - 30);
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(' Designed by MR_shahenshah', 72, H - 30);
+
+            // Footer Right Domain
+            ctx.textAlign = 'right';
+            ctx.font = '700 15px "Outfit", sans-serif';
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('ageverse.app', W - 44, H - 30);
+
+            ctx.restore();
+
+            // Crisp Thin Cyan-Gold Gradient Outer Border
+            const borderGrad = ctx.createLinearGradient(0, 0, W, H);
+            borderGrad.addColorStop(0, 'rgba(0, 242, 254, 0.65)');
+            borderGrad.addColorStop(0.5, 'rgba(168, 85, 247, 0.45)');
+            borderGrad.addColorStop(1, 'rgba(255, 215, 0, 0.65)');
+            drawRoundRect(ctx, 4, 4, W - 8, H - 8, 32);
+            ctx.strokeStyle = borderGrad;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+        }
+
+        // Render Individual Age Smart ID Card (1720x1080 Hi-DPI)
+        function renderAgeSmartCard() {
+            const canvas = document.getElementById('age-id-canvas');
+            const W = 860, H = 540, dpr = 2;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            const todayFormatted = new Date().toLocaleDateString('en-GB');
+            drawSmartCardBase(ctx, W, H, 'AGEVERSE ID CARD', `ISSUED: ${todayFormatted}`);
+
+            const yearsVal = document.getElementById('res-years').innerText;
+            const monthsVal = document.getElementById('res-months').innerText;
+            const daysVal = document.getElementById('res-days').innerText;
+            const bornDayText = document.getElementById('res-born-day').innerText;
+            const zodiacText = document.getElementById('res-zodiac').innerText;
+            const totalDaysText = document.getElementById('total-days').innerText;
+            const totalHoursText = document.getElementById('total-hours').innerText;
+
+            // User Name (Centered cleanly with generous vertical room)
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = '800 32px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(userName, W / 2, 124);
+
+            // Subtle Subtitle Label
+            ctx.font = '600 13px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('सटीक उम्र  •  EXACT AGE IDENTITY', W / 2, 158);
+
+            // Large Glowing Gradient Age Typography (No solid loud box!)
+            const ageHeadline = `${yearsVal} Years`;
+            ctx.font = '800 62px "Outfit", sans-serif';
+            const ageGrad = ctx.createLinearGradient(W / 2 - 180, 185, W / 2 + 180, 240);
+            ageGrad.addColorStop(0, '#00F2FE');
+            ageGrad.addColorStop(0.55, '#60A5FA');
+            ageGrad.addColorStop(1, '#FBBF24');
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(0, 242, 254, 0.35)';
+            ctx.shadowBlur = 22;
+            ctx.fillStyle = ageGrad;
+            ctx.fillText(ageHeadline, W / 2, 212);
+            ctx.restore();
+
+            // Months & Days Breakdown
+            ctx.font = '700 21px "Outfit", sans-serif';
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText(`${monthsVal} Months, ${daysVal} Days`, W / 2, 264);
+
+            // Neat Spacious 2x2 Glass Info Box Below
+            const boxX = 48, boxY = 298, boxW = W - 96, boxH = 160;
+            drawRoundRect(ctx, boxX, boxY, boxW, boxH, 20);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Center Crosshair Dividers inside 2x2 Grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(W / 2, boxY + 16);
+            ctx.lineTo(W / 2, boxY + boxH - 16);
+            ctx.moveTo(boxX + 24, boxY + boxH / 2);
+            ctx.lineTo(boxX + boxW - 24, boxY + boxH / 2);
+            ctx.stroke();
+
+            // Helper to draw each cell with generous vertical padding (zero clipping)
+            const drawStatCell = (col, row, label, value, valColor) => {
+                const cellX = col === 0 ? boxX + 28 : W / 2 + 28;
+                const rowCenterY = row === 0 ? boxY + 40 : boxY + 120;
+
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.font = '500 13px "Outfit", "Noto Sans Devanagari", sans-serif';
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(label, cellX, rowCenterY - 13);
+
+                ctx.font = '700 18px "Outfit", "Noto Sans Devanagari", sans-serif';
+                ctx.fillStyle = valColor;
+                ctx.fillText(value, cellX, rowCenterY + 13);
+            };
+
+            drawStatCell(0, 0, 'जन्म का दिन / Born Day', bornDayText, '#38bdf8');
+            drawStatCell(1, 0, 'राशि / Zodiac Sign', zodiacText, '#e879f9');
+            drawStatCell(0, 1, 'कुल दिन / Total Days', totalDaysText, '#fbbf24');
+            drawStatCell(1, 1, 'कुल घंटे / Total Hours', totalHoursText, '#f472b6');
+        }
+
+        // Render Comparison Smart ID Card (1720x1080 Hi-DPI)
+        function renderComparisonSmartCard() {
+            const canvas = document.getElementById('comp-id-canvas');
+            const W = 860, H = 540, dpr = 2;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            drawSmartCardBase(ctx, W, H, 'AGEVERSE COMPARISON CARD', 'DUAL AGE REPORT');
+
+            const cardY = 112, cardH = 152, cardW = 360;
+            const leftX = 48, rightX = W - 48 - cardW;
+
+            // Person 1 Glass Card
+            drawRoundRect(ctx, leftX, cardY, cardW, cardH, 20);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = '600 12px "Outfit", sans-serif';
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('PERSON 1', leftX + cardW / 2, cardY + 32);
+
+            ctx.font = '800 24px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(lastCompData.p1Name, leftX + cardW / 2, cardY + 76);
+
+            ctx.font = '500 15px "Outfit", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(`DOB: ${lastCompData.dob1 || '--'}`, leftX + cardW / 2, cardY + 118);
+
+            // Person 2 Glass Card
+            drawRoundRect(ctx, rightX, cardY, cardW, cardH, 20);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(192, 132, 252, 0.35)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.font = '600 12px "Outfit", sans-serif';
+            ctx.fillStyle = '#c084fc';
+            ctx.fillText('PERSON 2', rightX + cardW / 2, cardY + 32);
+
+            ctx.font = '800 24px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(lastCompData.p2Name, rightX + cardW / 2, cardY + 76);
+
+            ctx.font = '500 15px "Outfit", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(`DOB: ${lastCompData.dob2 || '--'}`, rightX + cardW / 2, cardY + 118);
+
+            // Center VS Badge
+            ctx.beginPath();
+            ctx.arc(W / 2, cardY + cardH / 2, 22, 0, Math.PI * 2);
+            ctx.fillStyle = '#1e293b';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(251, 191, 36, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.font = '800 13px "Outfit", sans-serif';
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText('VS', W / 2, cardY + cardH / 2);
+
+            // Comparison Result Banner Box
+            const resX = 48, resY = 292, resW = W - 96, resH = 162;
+            drawRoundRect(ctx, resX, resY, resW, resH, 22);
+            const resGrad = ctx.createLinearGradient(resX, resY, resX + resW, resY + resH);
+            resGrad.addColorStop(0, 'rgba(88, 28, 135, 0.28)');
+            resGrad.addColorStop(0.5, 'rgba(15, 23, 42, 0.85)');
+            resGrad.addColorStop(1, 'rgba(14, 116, 144, 0.28)');
+            ctx.fillStyle = resGrad;
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(251, 191, 36, 0.45)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Main Comparison Text (Auto-fit font size so long Hindi names never clip)
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            let mainFontSize = 23;
+            ctx.font = `800 ${mainFontSize}px "Outfit", "Noto Sans Devanagari", sans-serif`;
+            while (ctx.measureText(lastCompData.mainText).width > resW - 56 && mainFontSize > 15) {
+                mainFontSize -= 1;
+                ctx.font = `800 ${mainFontSize}px "Outfit", "Noto Sans Devanagari", sans-serif`;
             }
+            ctx.fillStyle = '#fcd34d';
+            ctx.fillText(lastCompData.mainText, W / 2, resY + 58);
+
+            // Sub Details Text
+            ctx.font = '600 16px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(lastCompData.subText, W / 2, resY + 110);
+        }
+
+        // Download High-Resolution Canvas Card as PNG
+        function downloadCanvasCard(canvasId, fileName) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const link = document.createElement('a');
+            link.download = fileName;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+            showToast("स्मार्ट आईडी कार्ड डाउनलोड हो गया है! / Downloaded", "info");
+            playBeep(950, 0.12);
         }
     </script>
 </body>
