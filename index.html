@@ -13,6 +13,9 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6299604891223248"
      crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-6299604891223248">
+    <!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgeVerse — Age & Birthday Calculator</title>
@@ -685,16 +688,167 @@
         </div>
     </div>
 
+    <!-- ADSENSE COMPLIANCE PAGES MODAL (About Us, Privacy Policy, Contact Us) -->
+    <div id="legal-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-3xl w-full max-h-[88vh] rounded-3xl p-5 sm:p-8 border border-cyan-400/30 flex flex-col relative overflow-hidden shadow-2xl">
+            <!-- Modal Close Button -->
+            <button onclick="closeLegalModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-navy-800 border border-white/10 text-slate-400 hover:text-white flex items-center justify-center z-10 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap gap-2 border-b border-white/10 pb-4 pr-10">
+                <button onclick="switchLegalTab('about')" id="tab-legal-about" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition-all">
+                    <i class="fa-solid fa-circle-info mr-1.5"></i> About Us (हमारे बारे में)
+                </button>
+                <button onclick="switchLegalTab('privacy')" id="tab-legal-privacy" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-navy-800/80 text-slate-400 border border-white/10 hover:text-white transition-all">
+                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Privacy Policy (गोपनीयता नीति)
+                </button>
+                <button onclick="switchLegalTab('contact')" id="tab-legal-contact" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-navy-800/80 text-slate-400 border border-white/10 hover:text-white transition-all">
+                    <i class="fa-solid fa-envelope mr-1.5"></i> Contact Us (संपर्क करें)
+                </button>
+            </div>
+
+            <!-- Scrollable Content Body -->
+            <div class="overflow-y-auto pr-2 pt-5 space-y-5 text-sm text-slate-300 leading-relaxed flex-grow">
+
+                <!-- TAB 1: ABOUT US -->
+                <div id="content-legal-about" class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-extrabold text-white">About AgeVerse — Age & Birthday Universe</h3>
+                            <p class="text-xs text-cyan-400">सटीक आयु गणना और डिजिटल समय उपकरण</p>
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>AgeVerse</strong> एक आधुनिक, तेज़ और 100% नि:शुल्क ऑनलाइन आयु एवं जन्मदिन कैलकुलेटर प्लेटफॉर्म है, जिसे विशेष रूप से हिंदी और अंग्रेजी उपयोगकर्ताओं के लिए सरल और सटीक समय गणना प्रदान करने के उद्देश्य से बनाया गया है।
+                    </p>
+                    <p>
+                        AgeVerse provides high-precision chronological age calculations, live real-time lifetime counters (days, hours, minutes, and ticking seconds), leap-year-accurate next birthday countdowns, planetary age insights, two-person age gap comparisons, and downloadable HD Digital Smart ID Cards.
+                    </p>
+
+                    <div class="p-4 rounded-2xl bg-navy-800/70 border border-white/10 space-y-2">
+                        <h4 class="font-bold text-amber-300 flex items-center">
+                            <i class="fa-solid fa-crown mr-2"></i> Our Mission & Creator
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-300">
+                            Website Designed & Developed by <strong class="text-amber-300">MR_shahenshah</strong>. Our goal is to deliver clean, privacy-first, mobile-friendly digital utilities that work seamlessly across smartphones, tablets, Chromebooks, and desktop computers without requiring registration or collecting personal birth records.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TAB 2: PRIVACY POLICY -->
+                <div id="content-legal-privacy" class="hidden space-y-4">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-white">Privacy Policy (गोपनीयता नीति)</h3>
+                        <p class="text-xs text-slate-400">Last Updated: November 2026 • Effective for AgeVerse</p>
+                    </div>
+
+                    <p>
+                        At <strong>AgeVerse</strong>, accessible from our web application, the privacy of our visitors is one of our main priorities. This Privacy Policy document outlines the types of information collected and recorded by AgeVerse and how we use it.
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-2xl bg-navy-800/60 border border-white/10 space-y-1.5">
+                            <h4 class="font-bold text-cyan-300">1. Client-Side Calculation & Zero Data Storage</h4>
+                            <p class="text-xs sm:text-sm">
+                                आपकी गोपनीयता हमारे लिए सर्वोपरि है। आपके द्वारा दर्ज की गई जन्मतिथि (Date of Birth), समय या नाम केवल आपके वेब ब्राउज़र (Client-Side) में गणना करने और स्मार्ट आईडी कार्ड बनाने के लिए उपयोग किए जाते हैं। हम आपका कोई भी व्यक्तिगत डेटा अपने बाहरी सर्वर या डेटाबेस में सेव नहीं करते हैं।
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-navy-800/60 border border-white/10 space-y-1.5">
+                            <h4 class="font-bold text-cyan-300">2. Cookies and Web Beacons</h4>
+                            <p class="text-xs sm:text-sm">
+                                Like any standard website, AgeVerse may use 'cookies' to store visitor preferences (such as theme or audio preferences) and optimize user experience based on visitors' browser type and device information.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-navy-800/60 border border-white/10 space-y-1.5">
+                            <h4 class="font-bold text-amber-300">3. Google AdSense & DoubleClick DART Cookie</h4>
+                            <p class="text-xs sm:text-sm">
+                                Google is a third-party vendor on our site. It uses cookies, known as <strong>DART cookies</strong>, to serve ads to our site visitors based upon their visit to AgeVerse and other sites on the internet. Visitors may choose to decline the use of DART cookies by visiting the Google Ad and Content Network Privacy Policy at <span class="text-cyan-400 underline">https://policies.google.com/technologies/ads</span>.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-navy-800/60 border border-white/10 space-y-1.5">
+                            <h4 class="font-bold text-cyan-300">4. Third-Party Privacy Policies & Consent</h4>
+                            <p class="text-xs sm:text-sm">
+                                AgeVerse's Privacy Policy does not apply to other advertisers or external websites. You can choose to disable cookies through your individual browser options. By using our website, you hereby consent to our Privacy Policy and agree to its terms.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: CONTACT US -->
+                <div id="content-legal-contact" class="hidden space-y-4">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-white">Contact Us (संपर्क करें)</h3>
+                        <p class="text-xs text-slate-400">कोई सुझाव, प्रश्न या सहायता चाहिए? हमें संदेश भेजें।</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-navy-800/70 border border-white/10 flex items-center space-x-3">
+                            <i class="fa-solid fa-envelope-open-text text-cyan-400 text-lg"></i>
+                            <div>
+                                <div class="text-slate-400">Official Support Email</div>
+                                <div class="font-bold text-white">support@ageverse.app</div>
+                            </div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-navy-800/70 border border-white/10 flex items-center space-x-3">
+                            <i class="fa-solid fa-code text-amber-400 text-lg"></i>
+                            <div>
+                                <div class="text-slate-400">Developer & Maintainer</div>
+                                <div class="font-bold text-amber-300">MR_shahenshah</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="contact-support-form" onsubmit="submitContactForm(event)" class="space-y-3 pt-1">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <label class="text-xs font-semibold text-slate-300">आपका नाम / Your Name *</label>
+                                <input type="text" id="contact-name" required placeholder="Enter your name" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs font-semibold text-slate-300">ईमेल पता / Email Address *</label>
+                                <input type="email" id="contact-email" required placeholder="you@example.com" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-300">विषय / Subject *</label>
+                            <input type="text" id="contact-subject" required placeholder="Feedback / Bug Report / Inquiry" class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-300">संदेश / Message *</label>
+                            <textarea id="contact-message" rows="3" required placeholder="अपना संदेश यहाँ लिखें..." class="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-sm hover:opacity-95 transition-all shadow-lg flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>संदेश भेजें (Send Message)</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="w-full py-6 px-4 border-t border-white/10 glass-card mt-12 text-center text-xs text-slate-400 space-y-2">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
             <div>
                 <span class="font-bold text-slate-200">AgeVerse</span> © <span id="footer-year"></span> — Age & Birthday Universe. Designed & Developed by <span class="gradient-text-gold font-bold">MR_shahenshah</span>
             </div>
-            <div class="flex items-center space-x-4 text-slate-400">
-                <span>100% नि:शुल्क और सुरक्षित</span>
-                <span>•</span>
-                <span>सटीक समय गणना</span>
+            <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-slate-300 font-medium">
+                <button type="button" onclick="openLegalModal('about')" class="hover:text-cyan-400 transition-colors">About Us</button>
+                <span class="text-slate-600">•</span>
+                <button type="button" onclick="openLegalModal('privacy')" class="hover:text-cyan-400 transition-colors">Privacy Policy</button>
+                <span class="text-slate-600">•</span>
+                <button type="button" onclick="openLegalModal('contact')" class="hover:text-cyan-400 transition-colors">Contact Us</button>
             </div>
         </div>
     </footer>
@@ -1161,7 +1315,7 @@
                 }
 
                 const parts = [];
-                if (years > 0) parts.push(`${years} वर्ष`);
+                if (years > 0) parts.push(`${years} साल`);
                 if (months > 0) parts.push(`${months} महीने`);
                 if (days > 0) parts.push(`${days} दिन`);
 
@@ -1176,11 +1330,11 @@
             if (d1 < d2) {
                 // d1 was born earlier, so Person 1 is older
                 const exactGapStr = calculateExactGap(d1, d2);
-                resultMsg = `${name1Val}, ${name2Val} से ${exactGapStr} बड़ा है।`;
+                resultMsg = `${name1Val}, ${name2Val} से लगभग ${exactGapStr} बड़ा है।`;
             } else if (d2 < d1) {
                 // d2 was born earlier, so Person 2 is older
                 const exactGapStr = calculateExactGap(d2, d1);
-                resultMsg = `${name2Val}, ${name1Val} से ${exactGapStr} बड़ा है।`;
+                resultMsg = `${name2Val}, ${name1Val} से लगभग ${exactGapStr} बड़ा है।`;
             } else {
                 resultMsg = `${name1Val} और ${name2Val} दोनों की जन्मतिथि बिल्कुल समान है!`;
             }
@@ -1348,7 +1502,7 @@
             ctx.textAlign = 'right';
             ctx.font = '700 15px "Outfit", sans-serif';
             ctx.fillStyle = '#38bdf8';
-            ctx.fillText('ageverse.app', W - 44, H - 30);
+            ctx.fillText('AgeVerse Website', W - 44, H - 30);
 
             ctx.restore();
 
@@ -1382,23 +1536,33 @@
             const zodiacText = document.getElementById('res-zodiac').innerText;
             const totalDaysText = document.getElementById('total-days').innerText;
             const totalHoursText = document.getElementById('total-hours').innerText;
+            const heartbeatsText = document.getElementById('stat-heartbeats').innerText;
+            const breathsText = document.getElementById('stat-breaths').innerText;
+            const nextBdayDateText = document.getElementById('next-bday-date').innerText;
+            const nbDaysRemaining = parseInt(document.getElementById('nb-days').innerText || '0', 10);
+
+            const todayCheck = new Date();
+            const isTodayBday = todayCheck.getDate() === userDOB.getDate() && todayCheck.getMonth() === userDOB.getMonth();
+            const nextBdayCardText = isTodayBday
+                ? 'आज जन्मदिन है! 🎉'
+                : `${nbDaysRemaining} दिन शेष (${nextBdayDateText})`;
 
             // User Name (Centered cleanly with generous vertical room)
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.font = '800 32px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.font = '800 30px "Outfit", "Noto Sans Devanagari", sans-serif';
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(userName, W / 2, 124);
+            ctx.fillText(userName, W / 2, 114);
 
             // Subtle Subtitle Label
-            ctx.font = '600 13px "Outfit", "Noto Sans Devanagari", sans-serif';
+            ctx.font = '600 12px "Outfit", "Noto Sans Devanagari", sans-serif';
             ctx.fillStyle = '#94a3b8';
-            ctx.fillText('सटीक उम्र  •  EXACT AGE IDENTITY', W / 2, 158);
+            ctx.fillText('सटीक उम्र  •  EXACT AGE IDENTITY', W / 2, 144);
 
             // Large Glowing Gradient Age Typography (No solid loud box!)
             const ageHeadline = `${yearsVal} Years`;
-            ctx.font = '800 62px "Outfit", sans-serif';
-            const ageGrad = ctx.createLinearGradient(W / 2 - 180, 185, W / 2 + 180, 240);
+            ctx.font = '800 54px "Outfit", sans-serif';
+            const ageGrad = ctx.createLinearGradient(W / 2 - 180, 165, W / 2 + 180, 215);
             ageGrad.addColorStop(0, '#00F2FE');
             ageGrad.addColorStop(0.55, '#60A5FA');
             ageGrad.addColorStop(1, '#FBBF24');
@@ -1407,53 +1571,66 @@
             ctx.shadowColor = 'rgba(0, 242, 254, 0.35)';
             ctx.shadowBlur = 22;
             ctx.fillStyle = ageGrad;
-            ctx.fillText(ageHeadline, W / 2, 212);
+            ctx.fillText(ageHeadline, W / 2, 190);
             ctx.restore();
 
             // Months & Days Breakdown
-            ctx.font = '700 21px "Outfit", sans-serif';
+            ctx.font = '700 19px "Outfit", sans-serif';
             ctx.fillStyle = '#e2e8f0';
-            ctx.fillText(`${monthsVal} Months, ${daysVal} Days`, W / 2, 264);
+            ctx.fillText(`${monthsVal} Months, ${daysVal} Days`, W / 2, 234);
 
-            // Neat Spacious 2x2 Glass Info Box Below
-            const boxX = 48, boxY = 298, boxW = W - 96, boxH = 160;
-            drawRoundRect(ctx, boxX, boxY, boxW, boxH, 20);
+            // Neat Spacious 2-Column x 4-Row Glass Info Box Below
+            const boxX = 48, boxY = 258, boxW = W - 96, boxH = 212;
+            drawRoundRect(ctx, boxX, boxY, boxW, boxH, 18);
             ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
             ctx.fill();
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
             ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            // Center Crosshair Dividers inside 2x2 Grid
+            // Vertical & Horizontal Dividers inside 2x4 Grid
+            const rowHeight = boxH / 4;
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(W / 2, boxY + 16);
-            ctx.lineTo(W / 2, boxY + boxH - 16);
-            ctx.moveTo(boxX + 24, boxY + boxH / 2);
-            ctx.lineTo(boxX + boxW - 24, boxY + boxH / 2);
+            ctx.moveTo(W / 2, boxY + 10);
+            ctx.lineTo(W / 2, boxY + boxH - 10);
+            for (let r = 1; r <= 3; r++) {
+                ctx.moveTo(boxX + 20, boxY + rowHeight * r);
+                ctx.lineTo(boxX + boxW - 20, boxY + rowHeight * r);
+            }
             ctx.stroke();
 
-            // Helper to draw each cell with generous vertical padding (zero clipping)
+            // Helper to draw each cell cleanly without clipping
             const drawStatCell = (col, row, label, value, valColor) => {
-                const cellX = col === 0 ? boxX + 28 : W / 2 + 28;
-                const rowCenterY = row === 0 ? boxY + 40 : boxY + 120;
+                const cellX = col === 0 ? boxX + 24 : W / 2 + 24;
+                const rowCenterY = boxY + rowHeight * row + rowHeight / 2;
 
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
-                ctx.font = '500 13px "Outfit", "Noto Sans Devanagari", sans-serif';
+                ctx.font = '500 11px "Outfit", "Noto Sans Devanagari", sans-serif';
                 ctx.fillStyle = '#94a3b8';
-                ctx.fillText(label, cellX, rowCenterY - 13);
+                ctx.fillText(label, cellX, rowCenterY - 10);
 
-                ctx.font = '700 18px "Outfit", "Noto Sans Devanagari", sans-serif';
+                let valFontSize = 15;
+                ctx.font = `700 ${valFontSize}px "Outfit", "Noto Sans Devanagari", sans-serif`;
+                const maxCellW = (boxW / 2) - 36;
+                while (ctx.measureText(value).width > maxCellW && valFontSize > 11) {
+                    valFontSize -= 0.5;
+                    ctx.font = `700 ${valFontSize}px "Outfit", "Noto Sans Devanagari", sans-serif`;
+                }
                 ctx.fillStyle = valColor;
-                ctx.fillText(value, cellX, rowCenterY + 13);
+                ctx.fillText(value, cellX, rowCenterY + 10);
             };
 
             drawStatCell(0, 0, 'जन्म का दिन / Born Day', bornDayText, '#38bdf8');
             drawStatCell(1, 0, 'राशि / Zodiac Sign', zodiacText, '#e879f9');
             drawStatCell(0, 1, 'कुल दिन / Total Days', totalDaysText, '#fbbf24');
             drawStatCell(1, 1, 'कुल घंटे / Total Hours', totalHoursText, '#f472b6');
+            drawStatCell(0, 2, 'दिल की धड़कनें / Heartbeats', heartbeatsText, '#f87171');
+            drawStatCell(1, 2, 'कुल ली गई साँसें / Breaths Taken', breathsText, '#34d399');
+            drawStatCell(0, 3, 'अगला जन्मदिन / Next Birthday', nextBdayCardText, '#a78bfa');
+            drawStatCell(1, 3, 'आयु स्थिति / Age Status', `${yearsVal} वर्ष पूर्ण`, '#22d3ee');
         }
 
         // Render Comparison Smart ID Card (1720x1080 Hi-DPI)
@@ -1564,6 +1741,41 @@
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
             showToast("स्मार्ट आईडी कार्ड डाउनलोड हो गया है! / Downloaded", "info");
+            playBeep(950, 0.12);
+        }
+
+        // Legal / AdSense Pages Modal Handlers
+        function openLegalModal(tabName = 'about') {
+            document.getElementById('legal-modal').classList.remove('hidden');
+            switchLegalTab(tabName);
+            playBeep(750, 0.06);
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legal-modal').classList.add('hidden');
+        }
+
+        function switchLegalTab(tabName) {
+            const tabs = ['about', 'privacy', 'contact'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-legal-${t}`);
+                const content = document.getElementById(`content-legal-${t}`);
+                if (t === tabName) {
+                    btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition-all";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-navy-800/80 text-slate-400 border border-white/10 hover:text-white transition-all";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function submitContactForm(event) {
+            event.preventDefault();
+            const senderName = document.getElementById('contact-name').value.trim();
+            document.getElementById('contact-support-form').reset();
+            closeLegalModal();
+            showToast(`धन्यवाद ${senderName}! आपका संदेश सफलतापूर्वक प्राप्त हो गया है।`, "info");
             playBeep(950, 0.12);
         }
     </script>
